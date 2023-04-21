@@ -1,0 +1,21 @@
+#udpspoof.pl
+
+use Net::RawIP;
+
+$DESTINATION = "127.0.0.1";
+$SOURCE_PORT = 200;
+
+print "Enter a Fake Source IP address( Example 12.3.4.5 ):";
+
+$SPOOFED_SOURCE = <STDIN>;
+
+chop($SPOOFED_SOURCE);
+
+$new_socket = new Net::RawIP({udp =>{}}); 
+
+$new_socket->set({ip => {saddr => $SPOOFED_SOURCE , daddr => $DESTINATION , tos => 22} ,
+                udp  => {source => $SOURCE_PORT, dest => 5000,data => "Hello" }});
+
+$new_socket->send;
+
+print "UDP Spoof done";

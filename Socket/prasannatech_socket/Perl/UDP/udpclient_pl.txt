@@ -1,0 +1,22 @@
+#udpclient.pl
+
+use IO::Socket::INET;
+
+# Create a new socket
+$socket=new IO::Socket::INET->new(PeerAddr=>'127.0.0.1',PeerPort=>5000,Proto=>'udp');
+
+while(1)
+{
+	print "Type Something (q or Q to quit): ";
+	$message=<STDIN>;
+	chop $message;
+	if($message ne 'q' and $message ne 'Q')
+	{
+		$socket->send($message);
+	}
+	else
+	{
+		close($socket);
+		exit(1);
+	}
+}
